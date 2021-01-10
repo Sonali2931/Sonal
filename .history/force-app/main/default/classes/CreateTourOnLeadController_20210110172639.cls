@@ -14,7 +14,7 @@ public class CreateTourOnLeadController {
         ID prodId;
         Id gatewayId;
         try{
-            gatewayId=[select Id from ChargentBase__Gateway__c where name='Stripe Test' limit 1].Id;
+            gatewayId=[select Id from ChargentBase_Gateway__c where name='Stripe Test' limit 1].Id;
             system.debug('gatewayId----'+gatewayId);
             system.debug('hello1----'+listOfTourDetails);
             system.debug('hello2----'+leadId);
@@ -170,7 +170,7 @@ public class CreateTourOnLeadController {
             pickListValuesList.add(pickListVal.getLabel());
         }     
         return pickListValuesList;
-    }
+    }/*comment*/
     
     @AuraEnabled
     public static List<String> getStatusOptions(){
@@ -223,7 +223,7 @@ public class CreateTourOnLeadController {
     public static Map<String, String> getLeadDetails(String leadId) {
         system.debug('leadId!!!'+leadId);
         Map<String, String> leadMap = new Map<String, String> ();
-        for(lead__c leadObj:[select id,name,Phone,Email,street,city,state,country,postalCode,RelationshipStatus__c 
+        for(Lead leadObj:[select id,name,Phone,Email,street,City__c,state,country,postalCode,RelationshipStatus__c 
                             from Lead where id=:leadId]){
             leadMap.put('name',leadObj.name); 
             leadMap.put('phone',leadObj.Phone);
