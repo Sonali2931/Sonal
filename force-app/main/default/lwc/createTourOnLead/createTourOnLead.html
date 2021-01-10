@@ -1,0 +1,195 @@
+<template>
+    <form id="myform" class="myform">
+        <div class="slds-box slds-theme_default">
+            <lightning-accordion allow-multiple-sections-open="true" active-section-name={activeSections}>
+                <lightning-accordion-section name="demographic" label="DemoGraphic">
+                    <div class="slds-gutters">
+                        <div class="slds-grid slds-size_2-of-2">
+                            <lightning-input class="slds-col slds-size_1-of-2" type="text" name="fname"
+                                value={listOfTour.fname} maxlength="40" label="Guest First Name" onchange={handleChange} disabled>
+                            </lightning-input>
+                            <lightning-input class="slds-col slds-size_1-of-2" type="text" name="lname"
+                                value={listOfTour.lname} label="Guest Last Name" onchange={handleChange} disabled>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-grid slds-size_3-of-3">
+                            <lightning-input class="slds-col slds-size_1-of-3" type="text" name="gFname"
+                                value={listOfTour.gFname} maxlength="40" label="Second Guest First Name"
+                                onchange={handleChange}>
+                            </lightning-input>
+                            <lightning-input class="slds-col slds-size_1-of-3" type="text" name="gLname"
+                                value={listOfTour.gLname} label="Second Guest Last Name" onchange={handleChange}>
+                            </lightning-input>
+                            <lightning-input class="slds-col slds-size_1-of-3" type="text" name="relation"
+                                value={listOfTour.relation} label="RelationShip" onchange={handleChange}>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-grid slds-size_3-of-3">
+                            <lightning-input class="slds-col slds-size_1-of-3" type="text" name="street"
+                                value={listOfTour.street} maxlength="40" label="Street Address" onchange={handleChange} disabled>
+                            </lightning-input>
+                            <lightning-input class="slds-col slds-size_1-of-3" type="text" name="city"
+                                value={listOfTour.city} label="City" onchange={handleChange} disabled>
+                            </lightning-input>
+                            <lightning-input class="slds-col slds-size_1-of-3" type="text" name="state"
+                                value={listOfTour.state} label="State" onchange={handleChange} disabled></lightning-input>
+                        </div>
+                        <div class="slds-grid slds-size_3-of-3">
+                            <lightning-input class="slds-col slds-size_1-of-3" type="text" name="zip"
+                                value={listOfTour.zip} maxlength="6" label="Zip" onchange={handleChange} disabled>
+                            </lightning-input>
+                            <lightning-input class="slds-col slds-size_1-of-3" type="tel" name="phone"
+                                value={listOfTour.phone} label="Phone Numer" onchange={handleChange} disabled>
+                            </lightning-input>
+                            <lightning-input class="slds-col slds-size_1-of-3" type="tel" name="phone2"
+                                value={listOfTour.phone2} label="Second Phone" onchange={handleChange} disabled>
+                            </lightning-input>
+                        </div>
+                        <div class="slds-grid slds-size_3-of-3">
+                            <lightning-input class="slds-col slds-size_1-of-3" type="email" name="email"
+                                value={listOfTour.email} maxlength="40" label="Email Address" onchange={handleChange} disabled>
+                            </lightning-input>
+                            <lightning-input class="slds-col slds-size_1-of-3" type="text" name="noOfKids"
+                                value={listOfTour.noOfKids} label="No. of Kids" onchange={handleChange}></lightning-input>
+                            <lightning-input class="slds-col slds-size_1-of-3" type="text" name="tourage"
+                                value={listOfTour.tourage} label="Age of Children" onchange={handleChange}></lightning-input>
+                        </div>
+                    </br></br>
+                    <div class="slds-grid slds-size_3-of-3">
+                        <c-create-custom-lookup object-api-name="Campaign" control-id="campaign" name="Source To Campaign" style="margin-top:-34px;"
+                        onrecordselected={handleCampaignselect} fields="Name" label="Source Campaign" is-required="true"
+                        onselection={clearSearchValue} class="slds-col slds-size_1-of-3"> <!--selected-record={listOfTour.location}-->
+                    </c-create-custom-lookup>    
+                    </div>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="BookyourTour" label="Book Your Tour">
+                    <div class="slds-gutters">
+                        <div class="slds-grid slds-size_3-of-3">
+                            <div class="slds-col slds-size_1-of-3">
+                                <c-create-custom-lookup object-api-name="account" control-id="location" name="location" style="margin-top:-34px;"
+                                    onrecordselected={handlelookupselectaccount} fields ="Name" label="Tour Site" is-required="true"
+                                    filter="recordType.Name='Location'" onselection={clearSearchValue} selected-record={listOfTour.location}>
+                                </c-create-custom-lookup>
+                            </div>
+                            <lightning-combobox class="slds-col slds-size_1-of-3 tourType" options={tourTypeOptions} required
+                                name="tourType" label="Tour Type" onchange={handleChange}></lightning-combobox>
+                            <lightning-input class="slds-col slds-size_1-of-3 rstartDate" type="date" name="tourDate"
+                                value={listOfTour.tourDate} 
+                                message-when-bad-input="Please enter Date in this format - Mmm DD, YYYY. Ex. Jan 10, 1956 OR Use Calendar Selector"
+                                label="Tour Date" onchange={handleChange}></lightning-input>
+                        </div>
+                        
+                        <div class="slds-grid slds-size_3-of-3">
+                                <template if:true={isTourWave}>
+                                <div class="slds-col slds-size_1-of-3">
+                                        <c-create-custom-lookup object-api-name="TourWave__c" control-id="Wave" style="margin-top:-34px;"
+                                            onrecordselected={handlewaveselect} fields="Name" label="Tour Wave" is-required="false"
+                                            filter={wavefilter} onselection={clearSearchValue}>
+                                        </c-create-custom-lookup>
+                                    </div> 
+                                </template>
+                            <lightning-input class="slds-col slds-size_1-of-3" type="number" name="amount"
+                                label="Amount" value={listOfTour.amount} formatter="currency" step="0.01"
+                                onchange={handleChange}></lightning-input>
+                            <lightning-combobox class="slds-col slds-size_1-of-3" options={ChargeTypeOptions}
+                                name="ChargeType" label="Charge Type" onchange={handleChange}></lightning-combobox>
+                        </div>
+                        <template if:true={isminivactour}>
+                            <div class="slds-grid slds-wrap slds-size_1-of-1">
+                                <div class="slds-col slds-size_2-of-12">
+                                    <c-create-custom-lookup object-api-name="account" control-id="hotel" style="margin-top:-34px;"
+                                        onrecordselected={handlehotelselect} fields="Name, TourLocation__r.Name" label="Preferred Hotel" is-required="false"
+                                        filter={hotelfilter} onselection={clearSearchValue} is-preferred-hotel-lookup=true>
+                                    </c-create-custom-lookup>
+                                </div> 
+                                <lightning-combobox class="slds-col slds-size_2-of-12" options={RoomTypeOptions}
+                                name="RoomType" label="Room Type" onchange={handleChange}></lightning-combobox>                             
+                                  <lightning-input class="slds-col slds-size_2-of-12" type="date" name="checkindate"
+                                    value={listOfTour.checkinDate} 
+                                    message-when-bad-input="Please enter Date  in this format - Mmm DD, YYYY. Ex. Jan 10, 1956 OR Use Calendar Selector"
+                                    label="Check-In Date" onchange={handleChange}></lightning-input>
+                                
+                                <div class="slds-grid slds-size_6-of-12">
+                                    <lightning-input class="slds-col slds-size_3-of-12" type="number" name="nights"
+                                        value={listOfTour.nights} max="999" label="Nights" onchange={handleChange}></lightning-input>
+                                    <lightning-input class="slds-col slds-size_3-of-12" type="number" name="adults"
+                                        value={listOfTour.adults} max="999" label="Adults" onchange={handleChange}></lightning-input>
+                                    <lightning-input class="slds-col slds-size_3-of-12" type="number" name="children"
+                                        value={listOfTour.children} max="999" label="Children" onchange={handleChange}></lightning-input>
+                                    <lightning-input class="slds-col slds-size_3-of-12" type="text" name="age"
+                                        value={listOfTour.age} max="999" label="Age of Children" onchange={handleChange}></lightning-input>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="Qualification" label="Qualification">
+                    <div class="slds-gutters">
+                        <div class="slds-grid slds-size_2-of-2">
+                            <lightning-combobox class="slds-col slds-size_1-of-2" options={relationshipStatusOptions}
+                                name="relationshipStatus" label="Relationship Staus" value={listOfTour.relationshipStatus} onchange={handleChange}></lightning-combobox>
+                            <lightning-combobox class="slds-col slds-size_1-of-2" options={yesNoOptions} value={listOfTour.meetsAgeMin}
+                            name="meetsAgeMin" label="Meets Age Minimum" onchange={handleChange}></lightning-combobox>
+                        </div>
+                        <div class="slds-grid slds-size_2-of-2">
+                            <lightning-combobox class="slds-col slds-size_1-of-2" options={yesNoOptions} value={listOfTour.meetsIncomeMin}
+                            name="meetsIncomeMin" label="Meets Income Minimum" onchange={handleChange}></lightning-combobox>
+                            <lightning-combobox class="slds-col slds-size_1-of-2" options={yesNoOptions} value={listOfTour.ownsCreditCard}
+                            name="ownsCreditCard" label="Owns a Credit Card" onchange={handleChange}></lightning-combobox>
+                        </div>
+                    </div>
+                </lightning-accordion-section>
+                <lightning-accordion-section name="premiums" label="Premiums">
+                    <div class="container" lwc:dom="manual"></div>
+                    <div class="slds-box slds-theme_default">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-4">
+                                <lightning-input type="number" name="quantity" label="Quantity" class="quan" value={qty} onchange={handleChange}>
+                                </lightning-input>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2">
+                                <c-create-custom-lookup object-api-name="ProductInventory__c" control-id="inventory" style="margin-top:-34px;"
+                                    onrecordselected={handlelookupselectProduct} fields="Name,Product__c,Location__c,Product__r.IsActive" class="prod" selectedparentrec={prodRec}
+                                    filter={inventoryfilter} label="Product" onselection={clearSearchValue}>
+                                </c-create-custom-lookup>
+                            </div>
+                            <div class="slds-col slds-size_1-of-6">
+                                <lightning-button variant="brand" label="Add" title="Add" disabled={disableAddBtn} class="slds-show_inline-block slds-p-top_large Add" onclick={addPremiumRow}>
+                                </lightning-button>
+                            </div>
+                        </div>
+                        </br>
+                        <template if:true={showPremiumTable} >
+                            <table class="myTableData slds-table slds-m-vertical_small" border="1">
+                                <tr>
+                                    <th>Quantity</th>
+                                    <th>Product</th>
+                                    <th></th>
+                                </tr>
+                                <template for:each={listOfPremium} for:item="prem" for:index="indx">
+                                    <tr key={prem.productid}>
+                                        <td><b>{prem.quantity}</b></td>
+                                        <td><b>{prem.product}</b></td>
+                                        <td><lightning-button variant="nuetral" label="Delete" title="Delete" name={indx} onclick={deletePremium}>
+                                        </lightning-button></td>
+                                        <!--td >{prem.productId}</td>-->
+                                    </tr>
+                                </template>
+                            </table>
+                        </template>
+                    </div>
+
+                </lightning-accordion-section>
+
+            </lightning-accordion>
+
+        </div>
+
+        <div class="slds-align_absolute-left">
+            </br>
+            <lightning-button variant="brand" label="Save" title="Save" class="save" onclick={createTour}>
+            </lightning-button>
+        </div>
+    </form>
+</template>

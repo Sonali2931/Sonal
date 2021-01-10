@@ -1,0 +1,113 @@
+<template>
+    <lightning-card>
+            <h3 slot="title">
+                <lightning-icon icon-name="standard:case" size="small"></lightning-icon>
+               Opportunity
+            </h3>
+            <div slot="footer">
+                    <lightning-button label="Submit5" onclick={handelSaveCase} variant="brand"></lightning-button>
+            </div>
+
+
+            <div class="slds-m-left_medium">
+              <div class="slds-m-right_medium">
+                
+              <div class="slds-grid">
+                <div class="slds-col slds-order_2 slds-large-order_1">
+                  <span>
+                    <div class="slds-card">
+                      <c-custom-lookup field-label="Select Account Record" child-object-api-name='Opportunity'
+                          target-field-api-name='AccountId' required onvalueselected={handleValueSelcted}></c-custom-lookup>
+                      The selected record Id is:- {selectedRecordId}
+                  </div>
+                    </p>
+                </span>
+                </div>
+
+    
+                <div class="slds-col slds-order_1 slds-large-order_2">
+                  <span>
+                    <p class="slds-p-horizontal_small">
+                    <lightning-input type="text" label="Opportunity Name"  placeholder="--Opportynity Name--" onchange={handleNameChange}></lightning-input> 
+                    </p> 
+                </span>
+                </div>
+              </div>
+
+              </div>
+              </div>>
+            
+            <div class="slds-grid">
+                <div class="slds-col slds-order_2 slds-large-order_1">
+                  <span>
+                      <template if:true={typeValues.data}>
+                          <div class="slds-m-around_medium">
+                              <lightning-combobox
+                              name="Stage"
+                              label="Stage"
+                              value={selectedOppStage}
+                              placeholder="--Stage--"
+                              options={typeValues.data.values}
+                              onchange={handleStageChange} ></lightning-combobox>    
+                          </div>
+                      </template>   
+                  </span>
+              </div>
+              
+                <div class="slds-col slds-order_1 slds-large-order_2">
+                  <span>
+                      <template if:true={typeValues2.data}>
+                          <div class="slds-m-around_medium">
+                              <lightning-combobox
+                              name="LeadSource"
+                              label="Lead Source"
+                              value={selectedLeadSource}
+                              placeholder="--Lead Source--"
+                              options={typeValues2.data.values}
+                              onchange={handleLeadChange} ></lightning-combobox>    
+                          </div>
+                      </template>    
+              
+                  </span>
+                </div>
+              </div>
+              
+              <div class="slds-grid">
+                  <div class="slds-col slds-order_2 slds-large-order_1">
+                    <span>
+                      <template if:true={typeValues1.data}>
+                          <div class="slds-m-around_medium">
+                              <lightning-combobox
+                              name="Type"
+                              label="Type"
+                              value={selectedOppType}
+                              placeholder="--Type--"
+                              options={typeValues1.data.values}
+                              onchange={handleTypeChange} ></lightning-combobox>    
+                          </div>
+                      </template>    
+                    </span>
+                  </div>
+                
+                  
+                  <div class="slds-col slds-order_1 slds-large-order_2">
+                    <span>
+                      <template if:true={typeValues3.data}>
+                          <div class="slds-m-around_medium">
+                              <lightning-combobox
+                              name="Reason"
+                              label="Case Reason"
+                              value={selectedcaseReason}
+                              placeholder="--Case Reason--"
+                              options={typeValues3.data.values}
+                              onchange={handleReasonChange} ></lightning-combobox>    
+                          </div>
+                      </template>
+                    </span>
+                  </div>
+                </div>
+
+               
+                </lightning-card>
+              
+            </template>
